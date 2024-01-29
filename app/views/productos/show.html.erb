@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <p class="text-success"><%= notice %></p>
+
+      <div class="text-center">
+        <%= image_tag @producto.photo, class: "img-fluid rounded" if @producto.photo.attached? %>
+      </div>
+
+      <div id="<%= dom_id @producto %>" class="mt-4">
+        <h5 class="mb-1">
+          <strong>Name:</strong>
+        </h5>
+        <p class="text-muted"><%= @producto.name %></p>
+
+        <h5 class="mb-1">
+          <strong>Description:</strong>
+        </h5>
+        <p class="text-muted"><%= @producto.description %></p>
+
+        <h5 class="mb-1">
+          <strong>Price:</strong>
+        </h5>
+        <p class="text-muted"><%= @producto.price %></p>
+      </div>
+
+      <div class="mt-4">
+        <div class="mb-3">
+          <% if policy(@producto).update? %>
+            <%= link_to "Editar producto", edit_producto_path(@producto), class: "btn btn-primary me-2" %>
+          <% end %>
+          <% if policy(@producto).destroy? %>
+            <%= button_to "Eliminar producto", @producto, method: :delete, data: { confirm: "¿Estás seguro de eliminar este producto?" }, class: "btn btn-danger me-2" %>
+          <% end %>
+        </div>
+
+        <div class="mb-3">
+          <% if policy(@producto).show? %>
+            <%= button_to "Comprar", @producto, method: :post, data: { confirm: "¿Comprar este producto?" }, class: "btn btn-success", onclick: "showSuccessMessage()" %>
+          <% end %>
+          <%= link_to "Volver a productos", root_path, class: "btn btn-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function showSuccessMessage() {
+        var successMessage = document.createElement('p');
+        successMessage.innerText = 'Comprado con éxito!';
+        successMessage.style.color = 'green';
+        document.getElementById('<%= dom_id @producto %>').insertBefore(successMessage, document.getElementById('<%= dom_id @producto %>').firstChild);
+    }
+</script>
