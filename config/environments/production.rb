@@ -3,6 +3,12 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+   # Agregar el dominio de Elastic Beanstalk a la lista blanca de hosts
+   config.hosts << /.+\.elasticbeanstalk\.com/
+
+   # Solo para propósitos de prueba, no seguro para producción
+   #config.hosts.clear
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

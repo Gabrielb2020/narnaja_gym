@@ -17,12 +17,28 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: localhost
-  username: postgres
-  password: 12345
+  # Configura el host, username y password para usar variables de entorno
+  host: <%= ENV['DB_HOST'] || 'localhost' %>
+  username: <%= ENV['DB_USERNAME'] || 'postgres' %>
+  password: <%= ENV['DB_PASSWORD'] || '12345' %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
 development:
   <<: *default
   database: gimnasio_narnaja
+
+# Asegúrate de tener una configuración para test si la necesitas
+test:
+  <<: *default
+  database: gimnasio_narnaja_test
+
+production:
+  <<: *default
+  # Utiliza DATABASE_URL para configurar la base de datos en producción, si está disponible
+  url: <%= ENV['DATABASE_URL'] %>
+  # O configura individualmente host, database, etc.
+  # host: <%= ENV['DB_HOST'] %>
+  # database: <%= ENV['DB_NAME'] %>
+  # username: <%= ENV['DB_USERNAME'] %>
+  # password: <%= ENV['DB_PASSWORD'] %>
